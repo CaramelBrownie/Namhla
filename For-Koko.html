@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For My Shawdy</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .page {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    /* Page One Styles */
+    #page1 {
+      background: linear-gradient(135deg, #ffe0f0, #ffeaea);
+    }
+
+    #page1 .container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 90%;
+    }
+
+    #page1 h1 {
+      color: #d63384;
+      margin-bottom: 20px;
+    }
+
+    #page1 button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+      transition: 0.3s ease;
+      background-color: #ff4d88;
+      color: white;
+    }
+
+    /* Page Two Styles */
+    #page2 {
+      background-image: url('https://raw.githubusercontent.com/CaramelBrownie/Namhla/92ad23837f9a61dd03f16a0bb66e449d6d7791f4/IMG-20241226-WA0018.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    #page2 .container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 90%;
+    }
+
+    #page2 h1 {
+      color: #d63384;
+      margin-bottom: 10px;
+      font-size: 36px;
+    }
+
+    #page2 .message {
+      color: #222;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    #page2 .from-him {
+      font-size: 14px;
+      font-weight: 300;
+      font-style: italic;
+      text-align: right;
+      margin-top: 30px;
+      color: #333;
+    }
+
+    #page2 button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+      transition: 0.3s ease;
+    }
+
+    #page2 #yesBtn {
+      background-color: #ff4d88;
+      color: white;
+    }
+
+    #page2 #noBtn {
+      background-color: #f5f5f5;
+      color: #ff4d88;
+      border: 2px solid #ff4d88;
+      position: relative;
+    }
+  
+    #heart {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  font-size: 80px;
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0;
+  transition: opacity 1.5s ease, transform 1.5s ease;
+  z-index: 999;
+  pointer-events: none;
+}
+  </style>
+</head>
+<body>
+
+<!-- Page 1 -->
+<div id="page1" class="page active">
+  <div class="container">
+    <h1>Message for you</h1>
+    <button id="openBtn">Open</button>
+  </div>
+</div>
+
+<!-- Page 2 -->
+<div id="page2" class="page">
+  <div class="container">
+    <h1>Motho’waka</h1>
+    <p class="message">I miss you—your smile, your laugh, your energy… everything. This distance sucks, but can I at least get a recent selfie? And maybe a reply too?</p>
+    <p class="from-him">From: Him...</p>
+    <div class="buttons">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+    <div id="message"></div>
+  </div>
+</div>
+  <div id="heart">❤️</div>
+<audio id="bgMusic">
+  <source src="https://raw.githubusercontent.com/CaramelBrownie/Namhla/57b28bc0a8909e554e562d800e7275fba7cb0254/SWAYVEE%20-%20US%20(%20Official%20music%20video%20).mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const openBtn = document.getElementById("openBtn");
+  const section1 = document.getElementById("page1");
+const section2 = document.getElementById("page2");
+
+  const bgMusic = document.getElementById("bgMusic");
+
+  openBtn.addEventListener("click", () => {
+    section1.style.display = "none";
+    section2.style.display = "flex";
+
+    // Start music playback
+    bgMusic.currentTime = 14;
+    bgMusic.volume = 1;
+    bgMusic.play();
+
+    let fadeDuration = 4; // seconds
+    let restartDelay = 0.5; // seconds
+
+    setInterval(() => {
+      if (bgMusic.duration && bgMusic.currentTime >= bgMusic.duration - fadeDuration - 0.2) {
+        fadeOutAndLoop();
+      }
+    }, 1000);
+  });
+
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const message = document.getElementById("message");
+
+  let opacity = 1.0;
+
+  yesBtn.onclick = () => {
+    window.location.href = 'https://wa.me/27636664507/';
+  };
+
+  function moveAndFade(amount) {
+    if (opacity > 0.0) {
+      const buttonWidth = noBtn.offsetWidth;
+      const buttonHeight = noBtn.offsetHeight;
+      const maxX = window.innerWidth - buttonWidth;
+      const maxY = window.innerHeight - buttonHeight;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+
+      opacity -= amount;
+      noBtn.style.opacity = opacity;
+
+      if (opacity <= 0.0) {
+        noBtn.style.display = "none";
+      }
+    }
+  }
+
+  noBtn.onmouseover = () => {
+    moveAndFade(0.1);
+  };
+
+  noBtn.onclick = () => {
+    moveAndFade(0.2);
+  };
+
+  function fadeOutAndLoop() {
+    let fadeInterval = setInterval(() => {
+      if (bgMusic.volume > 0.05) {
+        bgMusic.volume -= 0.05;
+      } else {
+        clearInterval(fadeInterval);
+        bgMusic.pause();
+        bgMusic.currentTime = 14;
+        bgMusic.volume = 1;
+        setTimeout(() => {
+          bgMusic.play();
+        }, 500);
+      }
+    }, 200);
+  }
+  
+  yesBtn.onclick = () => {
+  const heart = document.getElementById("heart");
+  heart.style.opacity = "1";
+  heart.style.transform = "translate(-50%, -50%) scale(1.2)";
+
+  setTimeout(() => {
+    heart.style.opacity = "0";
+    heart.style.transform = "translate(-50%, -50%) scale(0.5)";
+  }, 1500);
+
+  setTimeout(() => {
+    window.location.href = 'https://wa.me/27636664507/';
+  }, 2000);
+};
+</script>
+
+</body>
+</html>
